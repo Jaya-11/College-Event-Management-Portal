@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusPulse | College Event Hub</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Stylesheet -->
+    <link rel="stylesheet" href="styles.css">
+    
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header -->
+        <header class="app-header">
+            <div class="brand">
+                <div class="logo-icon">
+                    <i data-lucide="graduation-cap" class="icon-primary"></i>
+                </div>
+                <div>
+                    <h1>CampusPulse</h1>
+                    <p class="subtitle">College Event Management Portal</p>
+                </div>
+            </div>
+            
+            <!-- Tab Navigation -->
+            <nav class="tab-navigation">
+                <button class="tab-btn active" data-tab="feed">
+                    <i data-lucide="calendar"></i>
+                    <span>Events Feed</span>
+                </button>
+                <button class="tab-btn" data-tab="my-registrations">
+                    <i data-lucide="ticket"></i>
+                    <span>My Registrations</span>
+                    <span class="badge badge-pill" id="reg-count-badge">0</span>
+                </button>
+                <button class="tab-btn" data-tab="host">
+                    <i data-lucide="plus-circle"></i>
+                    <span>Host Event</span>
+                </button>
+            </nav>
+            
+            <div class="header-actions">
+                <button id="theme-toggle" class="btn-icon" aria-label="Toggle Theme">
+                    <i data-lucide="sun" class="sun-icon"></i>
+                    <i data-lucide="moon" class="moon-icon"></i>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Workspace -->
+        <main class="main-content">
+            
+            <!-- TAB 1: EVENTS FEED -->
+            <section id="tab-feed" class="tab-pane active">
+                <div class="filter-bar">
+                    <div class="search-wrapper">
+                        <i data-lucide="search" class="search-icon"></i>
+                        <input type="text" id="search-input" placeholder="Search events by title or organizer...">
+                    </div>
+                    <div class="filter-actions">
+                        <select id="filter-category" class="select-input">
+                            <option value="all">All Categories</option>
+                            <option value="technical">💻 Technical</option>
+                            <option value="cultural">🎨 Cultural</option>
+                            <option value="sports">🏆 Sports</option>
+                            <option value="academic">📚 Academic</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="events-grid" id="events-grid">
+                    <!-- Events populated dynamically -->
+                </div>
+                
+                <div class="empty-state" id="feed-empty-state" style="display: none;">
+                    <div class="empty-state-icon">
+                        <i data-lucide="calendar-off"></i>
+                    </div>
+                    <h3>No events found</h3>
+                    <p>Try resetting your search query or category filters.</p>
+                </div>
+            </section>
+
+            <!-- TAB 2: MY REGISTRATIONS -->
+            <section id="tab-my-registrations" class="tab-pane">
+                <div class="section-header">
+                    <h2>Your Registered Events</h2>
+                    <p class="text-secondary">Keep track of the events you are attending.</p>
+                </div>
+                
+                <div class="events-grid" id="my-registrations-grid">
+                    <!-- Registered events populated dynamically -->
+                </div>
+
+                <div class="empty-state" id="reg-empty-state">
+                    <div class="empty-state-icon">
+                        <i data-lucide="ticket"></i>
+                    </div>
+                    <h3>You haven't registered for any events yet</h3>
+                    <p>Browse the feed and secure your spot in upcoming campus events!</p>
+                    <button class="btn btn-primary" id="browse-events-btn">
+                        <span>Browse Events</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- TAB 3: HOST AN EVENT -->
+            <section id="tab-host" class="tab-pane">
+                <div class="host-container">
+                    <div class="host-header">
+                        <h2>Create Campus Event</h2>
+                        <p class="text-secondary">Host a new event for campus students to discover and register.</p>
+                    </div>
+                    
+                    <form id="host-event-form" autocomplete="off">
+                        <div class="form-row split">
+                            <div class="form-group">
+                                <label for="event-title">Event Title</label>
+                                <input type="text" id="event-title" placeholder="e.g., Annual Hackathon 2026" required maxlength="40">
+                            </div>
+                            <div class="form-group">
+                                <label for="event-category">Category</label>
+                                <select id="event-category" required class="select-input">
+                                    <option value="Technical">Technical</option>
+                                    <option value="Cultural">Cultural</option>
+                                    <option value="Sports">Sports</option>
+                                    <option value="Academic">Academic</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-row split">
+                            <div class="form-group">
+                                <label for="event-date">Date</label>
+                                <input type="date" id="event-date" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="event-time">Time</label>
+                                <input type="time" id="event-time" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row split">
+                            <div class="form-group">
+                                <label for="event-location">Location / Venue</label>
+                                <input type="text" id="event-location" placeholder="e.g., Auditorium Hall B, Seminar Room 3" required maxlength="50">
+                            </div>
+                            <div class="form-group">
+                                <label for="event-capacity">Capacity (Seats)</label>
+                                <input type="number" id="event-capacity" placeholder="e.g., 100" min="5" max="1000" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row split">
+                            <div class="form-group">
+                                <label for="event-organizer">Organizer / Club</label>
+                                <input type="text" id="event-organizer" placeholder="e.g., Google Developer Student Club" required maxlength="40">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="event-description">Description</label>
+                            <textarea id="event-description" rows="4" placeholder="Describe your event, guidelines, and benefits..." required maxlength="250"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">
+                            <i data-lucide="check"></i>
+                            <span>Publish Event</span>
+                        </button>
+                    </form>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- Notification Toast -->
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- Script -->
+    <script src="app.js"></script>
+</body>
+</html>
